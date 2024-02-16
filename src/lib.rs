@@ -17,13 +17,13 @@ pub use tree::{Event, Shared, Span, Tree};
 pub fn observe() {
     use tracing_subscriber::layer::SubscriberExt;
 
-    // let level = std::env::var("TRACING")
-    //     .unwrap_or_else(|_| "info".to_string())
-    //     .parse::<tracing_forest::util::LevelFilter>()
-    //     .unwrap_or(tracing_forest::util::LevelFilter::INFO);
+    let level = std::env::var("TRACING")
+        .unwrap_or_else(|_| "info".to_string())
+        .parse::<tracing_subscriber::filter::LevelFilter>()
+        .unwrap_or(tracing_subscriber::filter::LevelFilter::INFO);
 
     let s = tracing_subscriber::registry()
-        //.with(level)
+        .with(level)
         .with(Layer::default());
     tracing::subscriber::set_global_default(s).unwrap();
 }
